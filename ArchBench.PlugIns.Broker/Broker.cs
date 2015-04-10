@@ -209,7 +209,7 @@ namespace ArchBench.PlugIns.Broker
 				return false;
 			}
 			Host.Logger.WriteLine (String.Format("service provider found on: {0}", server.getUrl()));
-			string url = String.Format ("http://{0}{1}", server.getUrl(), service.Equals(DEFAULT_SERVICE) ? aRequest.Uri.ToString() : ProcessPath (aRequest.UriParts));
+			string url = String.Format ("http://{0}{1}", server.getUrl(), service.Equals(new Service(DEFAULT_SERVICE)) ? aRequest.UriPath : ProcessPath (aRequest.UriParts));
 
 			if (aRequest.Method == Method.Post) 
 				result = webClient.UploadValues (url, GetNameValueCollection (aRequest.Form));
