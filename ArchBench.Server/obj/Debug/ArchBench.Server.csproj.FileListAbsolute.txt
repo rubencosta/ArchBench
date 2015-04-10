@@ -1,0 +1,25 @@
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\bin\Debug\ArchBench.Server.exe
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\bin\Debug\ArchBench.Server.pdb
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\bin\Debug\ArchBench.Core.dll
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\bin\Debug\HttpServer.dll
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\bin\Debug\HttpServer.xml
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\bin\Debug\ArchBench.Core.pdb
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\obj\Debug\ResolveAssemblyReference.cache
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\obj\Debug\ArchBench.Server.ArchServerForm.resources
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\obj\Debug\ArchBench.Server.Properties.Resources.resources
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\obj\Debug\ArchBench.Server.csproj.GenerateResource.Cache
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\obj\Debug\ArchBench.Server.exe
+C:\Archive\Academy\Software.Architectures\Projects\ArchBench\ArchBench.Server\obj\Debug\ArchBench.Server.pdb
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\bin\Debug\ArchBench.Server.exe.config
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\bin\Debug\ArchBench.Server.exe
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\bin\Debug\ArchBench.Server.pdb
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\bin\Debug\ArchBench.Core.dll
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\bin\Debug\HttpServer.dll
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\bin\Debug\ArchBench.Core.pdb
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\bin\Debug\HttpServer.xml
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\obj\Debug\ArchBench.Server.csprojResolveAssemblyReference.cache
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\obj\Debug\ArchBench.Server.ArchServerForm.resources
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\obj\Debug\ArchBench.Server.Properties.Resources.resources
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\obj\Debug\ArchBench.Server.csproj.GenerateResource.Cache
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\obj\Debug\ArchBench.Server.exe
+C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Server\obj\Debug\ArchBench.Server.pdb

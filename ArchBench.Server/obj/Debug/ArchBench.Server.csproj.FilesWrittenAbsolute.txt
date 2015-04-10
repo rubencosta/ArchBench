@@ -1,0 +1,11 @@
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/obj/Debug/ArchBench.Server.ArchServerForm.resources
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/obj/Debug/ArchBench.Server.Properties.Resources.resources
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/bin/Debug/ArchBench.Server.exe.config
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/bin/Debug/ArchBench.Server.exe.mdb
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/bin/Debug/ArchBench.Server.exe
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/obj/Debug/ArchBench.Server.exe
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/obj/Debug/ArchBench.Server.exe.mdb
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/bin/Debug/HttpServer.dll
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/bin/Debug/ArchBench.Core.dll
+/home/ruben/Documents/AS/ArchBench/ArchBench.Server/bin/Debug/ArchBench.Core.dll.mdb

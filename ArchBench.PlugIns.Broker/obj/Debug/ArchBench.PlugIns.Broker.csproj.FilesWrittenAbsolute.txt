@@ -1,0 +1,8 @@
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/bin/Debug/ArchBench.PlugIns.Broker.dll.mdb
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/bin/Debug/ArchBench.PlugIns.Broker.dll
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/obj/Debug/ArchBench.PlugIns.Broker.dll
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/obj/Debug/ArchBench.PlugIns.Broker.dll.mdb
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/bin/Debug/HttpServer.dll
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/bin/Debug/ArchBench.Core.dll
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/bin/Debug/ArchBench.Core.dll.mdb

@@ -1,0 +1,8 @@
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Hello/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Hello/bin/Debug/ArchBench.PlugIns.Hello.dll.mdb
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Hello/bin/Debug/ArchBench.PlugIns.Hello.dll
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Hello/obj/Debug/ArchBench.PlugIns.Hello.dll
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Hello/obj/Debug/ArchBench.PlugIns.Hello.dll.mdb
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Hello/bin/Debug/HttpServer.dll
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Hello/bin/Debug/ArchBench.Core.dll
+/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Hello/bin/Debug/ArchBench.Core.dll.mdb
