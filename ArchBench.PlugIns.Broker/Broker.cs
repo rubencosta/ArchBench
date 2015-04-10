@@ -78,7 +78,7 @@ namespace ArchBench.PlugIns.Broker
 			bool registered = false;
 			//try to register server on some service
 			foreach (Service registeredService in mRegisteredServices){ 
-				if (registeredService.Add (aServiceName, aIPAdress, aPort)) {
+				if (registeredService.Add (aServiceName, aIPAdress, aPort) == true) {
 					Host.Logger.WriteLine( String.Format( "Service {0} registered", aServiceName) );
 					//TODO apagar este if e meter return
 					registered = true;
@@ -165,8 +165,8 @@ namespace ArchBench.PlugIns.Broker
 			result = null;
 			serviceName = aRequest.UriParts [0];
 			serviceName = serviceName != "" ? serviceName : DEFAULT_SERVICE;
-			cookies = "";
 			cookieServerId = "";
+			cookies = "";
 			index = mRegisteredServices.IndexOf (new Service (serviceName)); 
 			if (index > -1) {
 				service = mRegisteredServices [index];
@@ -200,11 +200,14 @@ namespace ArchBench.PlugIns.Broker
 			}
 			if(cookies != "")
 				webClient.Headers.Add ("Cookie", cookies);
-
-			server = service.getServer (int.Parse (cookieServerId));
-			if (server == null) 
+			if(cookieServerId != "")
+				server = service.getServer (int.Parse(cookieServerId));
+			else 
 				server = service.getServer ();
-
+			if (server == null) {
+				Host.Logger.WriteLine (String.Format("service provider not found!"));
+				return false;
+			}
 			Host.Logger.WriteLine (String.Format("service provider found on: {0}", server.getUrl()));
 			string url = String.Format ("http://{0}{1}", server.getUrl(), service.Equals(DEFAULT_SERVICE) ? aRequest.Uri.ToString() : ProcessPath (aRequest.UriParts));
 

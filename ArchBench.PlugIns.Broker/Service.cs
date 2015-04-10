@@ -60,7 +60,7 @@ namespace ArchBench.PlugIns.Broker
 			mServers.CopyTo(auxServerList,0);
 			foreach (Server server in auxServerList) 
 			{
-				if (server.isAlive ()) 
+				if (!server.isAlive ()) 
 				{
 					mServers.Remove (server);
 				}
