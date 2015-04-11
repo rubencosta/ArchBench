@@ -17,11 +17,7 @@ namespace ArchBench.PlugIns.Broker
 		IList<Service> mRegisteredServices = new List<Service>();
 		DateTime mCookieExpireDate = new DateTime ();
 
-<<<<<<< HEAD
 		const String COOKIE_NAME = "gluta_broker";
-=======
-		const String COOKIE_NAME = "broker_session";
->>>>>>> 5b8826738249fa2d7990877735d577c4f6eeacf5
 		const String DEFAULT_SERVICE = "default";
 
 		public Broker()
