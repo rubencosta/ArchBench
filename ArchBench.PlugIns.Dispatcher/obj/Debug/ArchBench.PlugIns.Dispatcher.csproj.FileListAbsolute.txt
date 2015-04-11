@@ -16,12 +16,3 @@ C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\Arc
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.PlugIns.Dispatcher\obj\Debug\ArchBench.PlugIns.Dispatcher.csprojResolveAssemblyReference.cache
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.PlugIns.Dispatcher\obj\Debug\ArchBench.PlugIns.Dispatcher.dll
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.PlugIns.Dispatcher\obj\Debug\ArchBench.PlugIns.Dispatcher.pdb
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Dispatcher\bin\Debug\ArchBench.PlugIns.Dispatcher.dll
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Dispatcher\bin\Debug\ArchBench.PlugIns.Dispatcher.pdb
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Dispatcher\bin\Debug\ArchBench.Core.dll
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Dispatcher\bin\Debug\HttpServer.dll
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Dispatcher\bin\Debug\ArchBench.Core.pdb
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Dispatcher\bin\Debug\HttpServer.xml
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Dispatcher\obj\Debug\ArchBench.PlugIns.Dispatcher.csprojResolveAssemblyReference.cache
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Dispatcher\obj\Debug\ArchBench.PlugIns.Dispatcher.dll
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Dispatcher\obj\Debug\ArchBench.PlugIns.Dispatcher.pdb

@@ -7,12 +7,3 @@ C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\Arc
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.PlugIns.Logout\obj\Debug\ArchBench.PlugIns.Logout.csprojResolveAssemblyReference.cache
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.PlugIns.Logout\obj\Debug\ArchBench.PlugIns.Logout.dll
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.PlugIns.Logout\obj\Debug\ArchBench.PlugIns.Logout.pdb
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Logout\bin\Debug\ArchBench.PlugIns.Logout.dll
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Logout\bin\Debug\ArchBench.PlugIns.Logout.pdb
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Logout\bin\Debug\ArchBench.Core.dll
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Logout\bin\Debug\HttpServer.dll
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Logout\bin\Debug\ArchBench.Core.pdb
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Logout\bin\Debug\HttpServer.xml
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Logout\obj\Debug\ArchBench.PlugIns.Logout.csprojResolveAssemblyReference.cache
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Logout\obj\Debug\ArchBench.PlugIns.Logout.dll
-C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Logout\obj\Debug\ArchBench.PlugIns.Logout.pdb

@@ -75,7 +75,6 @@ namespace ArchBench.PlugIns.Broker
 
 		void Regist( string aServiceName, string aIPAdress, int aPort )
 		{
-			bool registered = false;
 			//try to register server on some service
 			foreach (Service registeredService in mRegisteredServices){ 
 				if (registeredService.Add (aServiceName, aIPAdress, aPort) == true) {
@@ -132,14 +131,25 @@ namespace ArchBench.PlugIns.Broker
 			return cookies;
 		}
 
-		String ProcessPath (string [] UriParts)
+		String ProcessPath (IHttpRequest aRequest)
 		{
-			if (UriParts.Length == 0)
+		    string[] uriParts;
+		    if (aRequest.Headers["Referer"] != null)
+		    {
+		        string uriPath = aRequest.Headers["Referer"].Remove(0, aRequest.Headers["Origin"].Length +1);
+		        uriParts = uriPath.Split('/');
+		    }
+		    else
+		    {
+		        uriParts = aRequest.UriParts;
+		    }
+		    if (uriParts.Length == 0)
 				return "/";
 
 			string path = "";
-			for (int i = 1; i < UriParts.Length; i++) {
-				path += "/" + UriParts [i];
+            for (int i = 1; i < uriParts.Length; i++)
+            {
+                path += "/" + uriParts[i];
 			}
 			return path;
 		}
@@ -174,22 +184,16 @@ namespace ArchBench.PlugIns.Broker
 			Service service;
 			Server server;
 			String cookies;
-			String existingBrokerCookies;
 			String cookieServerId;
 			int index; 
 
 			webClient = new WebClient ();
 			result = null;
-			serviceName = aRequest.UriParts.Length > 0 ? aRequest.UriParts [0] : DEFAULT_SERVICE;
+		    serviceName = getServiceName(aRequest);
 			cookieServerId = "";
 			cookies = "";
 			index = mRegisteredServices.IndexOf (new Service (serviceName)); 
-			if (index > -1) {
-				service = mRegisteredServices [index];
-			} else {
-				//use default service
-				service = mRegisteredServices [0];
-			}
+			service = index > -1 ? mRegisteredServices [index] : mRegisteredServices [0];
 		    //check for cookie
 		    foreach (RequestCookie requestCookie in aRequest.Cookies)
 		    {
@@ -229,8 +233,7 @@ namespace ArchBench.PlugIns.Broker
 		        return false;
 		    }
 		    Host.Logger.WriteLine(String.Format("service provider found on: {0}", server.getUrl()));
-		    string url = String.Format("http://{0}{1}", server.getUrl(),
-		        service.Equals(new Service(DEFAULT_SERVICE)) ? aRequest.UriPath : ProcessPath(aRequest.UriParts));
+		    string url = String.Format("http://{0}{1}", server.getUrl(), ProcessPath(aRequest));
 		    try
 		    {
 		        result = aRequest.Method == Method.Post
@@ -270,8 +273,21 @@ namespace ArchBench.PlugIns.Broker
 
 			return true;
 		}
-			
-		#endregion
+
+	    private string getServiceName(IHttpRequest aRequest)
+	    {
+	        string serviceName = "";
+	        if (aRequest.Headers["Referer"] != null)
+	        {
+	            string uriPath = aRequest.Headers["Referer"].Remove(0, aRequest.Headers["Origin"].Length + 1);
+	            return uriPath.Split('/')[0];
+	        }
+
+            serviceName = aRequest.UriParts.Length > 0 ? aRequest.UriParts[0] : DEFAULT_SERVICE;
+	        return serviceName;
+	    }
+
+	    #endregion
 
 		#region IArchServerPlugIn Members
 
