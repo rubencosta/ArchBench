@@ -144,7 +144,7 @@ namespace ArchBench.PlugIns.Broker
 			return path;
 		}
 
-		NameValueCollection GetNameValueCollection(HttpServer.HttpForm form){
+		NameValueCollection GetNameValueCollection(HttpForm form){
 			NameValueCollection col = new NameValueCollection (); 
 			foreach (HttpInputItem item in form) {
 				col.Add (item.Name, item.Value);
@@ -190,61 +190,80 @@ namespace ArchBench.PlugIns.Broker
 				//use default service
 				service = mRegisteredServices [0];
 			}
-			//check for cookie
-			foreach ( RequestCookie requestCookie in aRequest.Cookies )
-			{
-				if (requestCookie.Name.Contains(COOKIE_NAME) && requestCookie.Name.IndexOf('@') > -1 && requestCookie.Name.Substring(0, requestCookie.Name.IndexOf('@')) == service.Name) 
-				{
-					foreach(string subCookie in DecodeCookie (requestCookie.Value))
-					{
-						try{
-							if(subCookie.Contains("__broker__")){
-								cookieServerId = subCookie.Substring (subCookie.IndexOf ('=') + 1);
-							}
-						}catch(Exception e){
-							Host.Logger.WriteLine (e.ToString());
-							if (subCookie != "" && cookies != "" && !subCookie.Contains("__broker__"))
-								cookies += ';' + subCookie;
-							else if (subCookie != "" && !subCookie.Contains("__broker__"))
-								cookies = subCookie;
-						}
-						if (subCookie != "" && cookies != "" && !subCookie.Contains("__broker__"))
-							cookies += ';' + subCookie;
-						else if (subCookie != "" && !subCookie.Contains("__broker__"))
-							cookies = subCookie;
-					}
-				}
-			}
-			if(cookies != "")
-				webClient.Headers.Add ("Cookie", cookies);
-			server = cookieServerId != "" ? service.getServer (int.Parse (cookieServerId)) : service.getServer ();
-			if (server == null) {
-				Host.Logger.WriteLine (String.Format("service provider not found!"));
-				return false;
-			}
-			Host.Logger.WriteLine (String.Format("service provider found on: {0}", server.getUrl()));
-			string url = String.Format ("http://{0}{1}", server.getUrl(), service.Equals(new Service(DEFAULT_SERVICE)) ? aRequest.UriPath : ProcessPath (aRequest.UriParts));
+		    //check for cookie
+		    foreach (RequestCookie requestCookie in aRequest.Cookies)
+		    {
+		        if (requestCookie.Name.Contains(COOKIE_NAME) && requestCookie.Name.IndexOf('@') > -1 &&
+		            requestCookie.Name.Substring(0, requestCookie.Name.IndexOf('@')) == service.Name)
+		        {
+		            foreach (string subCookie in DecodeCookie(requestCookie.Value))
+		            {
+		                try
+		                {
+		                    if (subCookie.Contains("__broker__"))
+		                    {
+		                        cookieServerId = subCookie.Substring(subCookie.IndexOf('=') + 1);
+		                    }
+		                }
+		                catch (Exception e)
+		                {
+		                    Host.Logger.WriteLine(e.ToString());
+		                    if (subCookie != "" && cookies != "" && !subCookie.Contains("__broker__"))
+		                        cookies += ';' + subCookie;
+		                    else if (subCookie != "" && !subCookie.Contains("__broker__"))
+		                        cookies = subCookie;
+		                }
+		                if (subCookie != "" && cookies != "" && !subCookie.Contains("__broker__"))
+		                    cookies += ';' + subCookie;
+		                else if (subCookie != "" && !subCookie.Contains("__broker__"))
+		                    cookies = subCookie;
+		            }
+		        }
+		    }
+		    if (cookies != "")
+		        webClient.Headers.Add("Cookie", cookies);
+		    server = cookieServerId != "" ? service.getServer(int.Parse(cookieServerId)) : service.getServer();
+		    if (server == null)
+		    {
+		        Host.Logger.WriteLine(String.Format("service provider not found!"));
+		        return false;
+		    }
+		    Host.Logger.WriteLine(String.Format("service provider found on: {0}", server.getUrl()));
+		    string url = String.Format("http://{0}{1}", server.getUrl(),
+		        service.Equals(new Service(DEFAULT_SERVICE)) ? aRequest.UriPath : ProcessPath(aRequest.UriParts));
+		    try
+		    {
+		        result = aRequest.Method == Method.Post
+		            ? webClient.UploadValues(url, GetNameValueCollection(aRequest.Form))
+		            : webClient.DownloadData(url);
+		    }
+		    catch (WebException e)
+		    {
+		        Host.Logger.WriteLine("This program is expected to throw WebException on successful run." +
+		                              "\n\nException Message :" + e.Message);
+		        if (e.Status == WebExceptionStatus.ProtocolError)
+		        {
+		            Console.WriteLine("Status Code : {0}", ((HttpWebResponse) e.Response).StatusCode);
+		            Console.WriteLine("Status Description : {0}", ((HttpWebResponse) e.Response).StatusDescription);
+		        }
+		    }
+		    if (result != null && result.Length > 0)
+		    {
+		        // Send data to corresponding service
+		        String data = Encoding.ASCII.GetString(result, 0, result.Length);
+		        Host.Logger.WriteLine(data);
 
-			result = aRequest.Method == Method.Post ? webClient.UploadValues (url, GetNameValueCollection (aRequest.Form)) : webClient.DownloadData (url);
+		        // Forward cookie
+		        foreach (string key in webClient.ResponseHeaders.AllKeys)
+		        {
+		            aResponse.AddHeader(key, webClient.ResponseHeaders[key]);
+		        }
+		        aResponse.AddHeader("Set-Cookie",
+		            EncodeSetCookie(service.Name, server.Id, webClient.ResponseHeaders["Set-Cookie"]));
 
-			if (result.Length > 0) 
-			{
-				// Send data to corresponding service
-				String data = Encoding.ASCII.GetString( result, 0, result.Length );
-				Host.Logger.WriteLine (data);
-
-				//set all paths to relative
-
-				// Forward cookie
-				foreach (string key in webClient.ResponseHeaders.AllKeys) {
-					aResponse.AddHeader (key, webClient.ResponseHeaders[key]);
-				}
-				aResponse.AddHeader ("Set-Cookie", EncodeSetCookie (service.Name, server.Id, webClient.ResponseHeaders["Set-Cookie"]));
-
-				aResponse.Body.Write (result, 0, result.Length);
-				aResponse.Send ();
-
-			} 
+		        aResponse.Body.Write(result, 0, result.Length);
+		        aResponse.Send();
+		    } 
 
 			//			webClient.DownloadDataCompleted += HandleDownloadDataCompleted;
 			//			webClient.DownloadDataAsync (aRequest.Uri);
