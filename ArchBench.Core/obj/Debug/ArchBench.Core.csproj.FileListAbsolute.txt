@@ -12,3 +12,9 @@ C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\Arc
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Core\obj\Debug\ArchBench.Core.csprojResolveAssemblyReference.cache
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Core\obj\Debug\ArchBench.Core.dll
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.Core\obj\Debug\ArchBench.Core.pdb
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.Core\bin\Debug\ArchBench.Core.dll
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.Core\bin\Debug\ArchBench.Core.pdb
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.Core\bin\Debug\HttpServer.dll
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.Core\bin\Debug\HttpServer.xml
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.Core\obj\Debug\ArchBench.Core.dll
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.Core\obj\Debug\ArchBench.Core.pdb

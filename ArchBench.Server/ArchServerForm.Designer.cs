@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArchServerForm));
-			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -397,9 +397,9 @@
             this.mOutput.Multiline = true;
             this.mOutput.Name = "mOutput";
             this.mOutput.ReadOnly = true;
+            this.mOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.mOutput.Size = new System.Drawing.Size(465, 248);
             this.mOutput.TabIndex = 3;
-			this.mOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             // 
             // ArchServerForm
             // 
@@ -413,13 +413,13 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ArchServerForm";
             this.Text = "ArchBench Server";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler (this.OnClosing);
 
         }
 
