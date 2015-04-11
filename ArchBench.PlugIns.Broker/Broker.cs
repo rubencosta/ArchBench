@@ -13,8 +13,8 @@ namespace ArchBench.PlugIns.Broker
 	public class Broker : IArchServerModulePlugIn
 	{
 		readonly TcpListener mListener;
-		IList<Service> mRegisteredServices = new List<Service>();
 		Thread mRegisterThread;
+		IList<Service> mRegisteredServices = new List<Service>();
 		DateTime mCookieExpireDate = new DateTime ();
 
 		const String COOKIE_NAME = "broker_sessiopron";
@@ -121,6 +121,7 @@ namespace ArchBench.PlugIns.Broker
 					encodedSetCookie += String.Format (";Expires={0}", mCookieExpireDate.ToString ("R"));
 				}
 			}
+			//TODO isto vai substituir a cookie por isso se já tiver uma cookie __broker__`serviceName` vai ser apagada 
 			encodedSetCookie += String.Format ("&{0}",originalSetCookie);
 			return encodedSetCookie;
 		}
@@ -146,6 +147,26 @@ namespace ArchBench.PlugIns.Broker
 				path += "/" + UriParts [i];
 			}
 			return path;
+		}
+
+		NameValueCollection GetNameValueCollection(HttpServer.HttpForm form){
+			NameValueCollection col = new NameValueCollection (); 
+			foreach (HttpInputItem item in form) {
+				col.Add (item.Name, item.Value);
+			}
+			return col;
+
+		}
+
+		void HandleDownloadDataCompleted (object sender, DownloadDataCompletedEventArgs e)
+		{
+			byte[] result = e.Result;
+			Host.Logger.WriteLine ("{0} bytes received!", result.Length);
+
+		}
+
+		void FinishWebRequest(IAsyncResult result) {
+			Host.Logger.WriteLine (result.ToString ());
 		}
 
 		#region IArchServerModulePlugIn Members
@@ -200,10 +221,7 @@ namespace ArchBench.PlugIns.Broker
 			}
 			if(cookies != "")
 				webClient.Headers.Add ("Cookie", cookies);
-			if(cookieServerId != "")
-				server = service.getServer (int.Parse(cookieServerId));
-			else 
-				server = service.getServer ();
+			server = cookieServerId != "" ? service.getServer (int.Parse (cookieServerId)) : service.getServer ();
 			if (server == null) {
 				Host.Logger.WriteLine (String.Format("service provider not found!"));
 				return false;
@@ -211,10 +229,7 @@ namespace ArchBench.PlugIns.Broker
 			Host.Logger.WriteLine (String.Format("service provider found on: {0}", server.getUrl()));
 			string url = String.Format ("http://{0}{1}", server.getUrl(), service.Equals(new Service(DEFAULT_SERVICE)) ? aRequest.UriPath : ProcessPath (aRequest.UriParts));
 
-			if (aRequest.Method == Method.Post) 
-				result = webClient.UploadValues (url, GetNameValueCollection (aRequest.Form));
-			else 
-				result = webClient.DownloadData(url);
+			result = aRequest.Method == Method.Post ? webClient.UploadValues (url, GetNameValueCollection (aRequest.Form)) : webClient.DownloadData (url);
 
 			if (result.Length > 0) 
 			{
@@ -240,30 +255,7 @@ namespace ArchBench.PlugIns.Broker
 
 			return true;
 		}
-
-
-
-		private NameValueCollection GetNameValueCollection(HttpServer.HttpForm form){
-			NameValueCollection col = new NameValueCollection (); 
-			foreach (HttpInputItem item in form) {
-				col.Add (item.Name, item.Value);
-			}
-			return col;
-		
-		}
-
-		private void HandleDownloadDataCompleted (object sender, DownloadDataCompletedEventArgs e)
-		{
-			byte[] result = e.Result;
-			Host.Logger.WriteLine ("{0} bytes received!", result.Length);
-
-		}
-
-		private void FinishWebRequest(IAsyncResult result) {
-			Host.Logger.WriteLine (result.ToString ());
-		}
-
-
+			
 		#endregion
 
 		#region IArchServerPlugIn Members
