@@ -117,7 +117,6 @@ namespace ArchBench.PlugIns.Broker
 					encodedSetCookie += String.Format (";Expires={0}", mCookieExpireDate.ToString ("R"));
 				}
 			}
-			//TODO isto vai substituir a cookie por isso se já tiver uma cookie __broker__`serviceName` vai ser apagada 
 			encodedSetCookie += String.Format ("&{0}",originalSetCookie);
 			return encodedSetCookie;
 		}
