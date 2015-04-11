@@ -17,7 +17,7 @@ namespace ArchBench.PlugIns.Broker
 		IList<Service> mRegisteredServices = new List<Service>();
 		DateTime mCookieExpireDate = new DateTime ();
 
-		const String COOKIE_NAME = "broker_sessiopron";
+		const String COOKIE_NAME = "gluta_broker";
 		const String DEFAULT_SERVICE = "default";
 
 		public Broker()
@@ -112,7 +112,7 @@ namespace ArchBench.PlugIns.Broker
 		{
 			if (originalSetCookie == null) 
 				return "";
-			String encodedSetCookie = String.Format ("{0}=__broker__{1}={2}&",COOKIE_NAME, serviceName, serverId);
+			String encodedSetCookie = String.Format ("{0}@{1}=__broker__={2}", serviceName, COOKIE_NAME, serverId);
 			String[] splitCookie = originalSetCookie.Split (';');
 			// Set-Cookie contains Expires attr
 			foreach(string cookieOpt in splitCookie){
@@ -121,7 +121,6 @@ namespace ArchBench.PlugIns.Broker
 					encodedSetCookie += String.Format (";Expires={0}", mCookieExpireDate.ToString ("R"));
 				}
 			}
-			//TODO isto vai substituir a cookie por isso se já tiver uma cookie __broker__`serviceName` vai ser apagada 
 			encodedSetCookie += String.Format ("&{0}",originalSetCookie);
 			return encodedSetCookie;
 		}
@@ -179,13 +178,13 @@ namespace ArchBench.PlugIns.Broker
 			Service service;
 			Server server;
 			String cookies;
+			String existingBrokerCookies;
 			String cookieServerId;
 			int index; 
 
 			webClient = new WebClient ();
 			result = null;
-			serviceName = aRequest.UriParts [0];
-			serviceName = serviceName != "" ? serviceName : DEFAULT_SERVICE;
+			serviceName = aRequest.UriParts.Length > 0 ? aRequest.UriParts [0] : DEFAULT_SERVICE;
 			cookieServerId = "";
 			cookies = "";
 			index = mRegisteredServices.IndexOf (new Service (serviceName)); 
@@ -198,24 +197,25 @@ namespace ArchBench.PlugIns.Broker
 			//check for cookie
 			foreach ( RequestCookie requestCookie in aRequest.Cookies )
 			{
-				if (requestCookie.Name == COOKIE_NAME) 
+				if (requestCookie.Name.Contains(COOKIE_NAME) && requestCookie.Name.IndexOf('@') > -1 && requestCookie.Name.Substring(0, requestCookie.Name.IndexOf('@')) == service.Name) 
 				{
-					foreach(string cookie in DecodeCookie (requestCookie.Value))
+					foreach(string subCookie in DecodeCookie (requestCookie.Value))
 					{
 						try{
-							if(cookie.Contains("__broker__") && cookie.Substring (cookie.LastIndexOf ("__broker__") + 10, cookie.IndexOf ('=')-(cookie.LastIndexOf ("__broker__") + 10)) == service.Name)
-								cookieServerId = cookie.Substring (cookie.IndexOf ('=') + 1);
+							if(subCookie.Contains("__broker__")){
+								cookieServerId = subCookie.Substring (subCookie.IndexOf ('=') + 1);
+							}
 						}catch(Exception e){
 							Host.Logger.WriteLine (e.ToString());
-							if (cookie != "" && cookies != "")
-								cookies += ';' + cookie;
-							else if (cookie != "")
-								cookies = cookie;
+							if (subCookie != "" && cookies != "" && !subCookie.Contains("__broker__"))
+								cookies += ';' + subCookie;
+							else if (subCookie != "" && !subCookie.Contains("__broker__"))
+								cookies = subCookie;
 						}
-						if (cookie != "" && cookies != "")
-							cookies += ';' + cookie;
-						else if (cookie != "")
-							cookies = cookie;
+						if (subCookie != "" && cookies != "" && !subCookie.Contains("__broker__"))
+							cookies += ';' + subCookie;
+						else if (subCookie != "" && !subCookie.Contains("__broker__"))
+							cookies = subCookie;
 					}
 				}
 			}
