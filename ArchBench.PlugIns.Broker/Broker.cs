@@ -17,7 +17,11 @@ namespace ArchBench.PlugIns.Broker
 		IList<Service> mRegisteredServices = new List<Service>();
 		DateTime mCookieExpireDate = new DateTime ();
 
+<<<<<<< HEAD
 		const String COOKIE_NAME = "gluta_broker";
+=======
+		const String COOKIE_NAME = "broker_session";
+>>>>>>> 5b8826738249fa2d7990877735d577c4f6eeacf5
 		const String DEFAULT_SERVICE = "default";
 
 		public Broker()
@@ -52,8 +56,8 @@ namespace ArchBench.PlugIns.Broker
 						// Translate data bytes to a ASCII string.
 						String data = Encoding.ASCII.GetString( bytes, 0, count );
 
-						String server = data.Substring( 0, data.IndexOf('-') );
-						String port   = data.Substring( data.IndexOf('-') + 1 );
+						String server = data.Substring( 0, data.IndexOf('@') );
+						String port   = data.Substring( data.IndexOf(':') + 1 );
 						String ip = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
 						Host.Logger.WriteLine( String.Format( "Server {0} available on {1}:{2}", server, ip, port ) );
 						server = server != "" ? server : "default";
@@ -80,17 +84,13 @@ namespace ArchBench.PlugIns.Broker
 			foreach (Service registeredService in mRegisteredServices){ 
 				if (registeredService.Add (aServiceName, aIPAdress, aPort) == true) {
 					Host.Logger.WriteLine( String.Format( "Service {0} registered", aServiceName) );
-					//TODO apagar este if e meter return
-					registered = true;
+					return;
 				}
 			}
-			if (!registered) {
-				Service newService = new Service (aServiceName, aIPAdress, aPort);
-				mRegisteredServices.Add (newService);
-				newService.Expired += new EventHandler (onServiceExpired);
-				Host.Logger.WriteLine (String.Format ("Service {0} registered", aServiceName));
-			}
-
+		    Service newService = new Service (aServiceName, aIPAdress, aPort);
+		    mRegisteredServices.Add (newService);
+		    newService.Expired += new EventHandler (onServiceExpired);
+		    Host.Logger.WriteLine(string.Format("Service {0} registered", aServiceName));
 		}  
 
 		void onServiceExpired(object sender, EventArgs e)

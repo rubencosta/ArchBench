@@ -24,3 +24,14 @@ C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\Arc
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.PlugIns.Login\obj\Debug\ArchBench.PlugIns.Login.csproj.GenerateResource.Cache
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.PlugIns.Login\obj\Debug\ArchBench.PlugIns.Login.dll
 C:\Users\Leonel Nobrega\Documents\Visual Studio 2013\Projects\ArchBench.Base\ArchBench.PlugIns.Login\obj\Debug\ArchBench.PlugIns.Login.pdb
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\bin\Debug\ArchBench.PlugIns.Login.dll
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\bin\Debug\ArchBench.PlugIns.Login.pdb
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\bin\Debug\ArchBench.Core.dll
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\bin\Debug\HttpServer.dll
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\bin\Debug\ArchBench.Core.pdb
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\bin\Debug\HttpServer.xml
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\obj\Debug\ArchBench.PlugIns.Login.csprojResolveAssemblyReference.cache
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\obj\Debug\ArchBench.PlugIns.Login.Resource.resources
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\obj\Debug\ArchBench.PlugIns.Login.csproj.GenerateResource.Cache
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\obj\Debug\ArchBench.PlugIns.Login.dll
+C:\Users\Ruben\Source\Repos\ArchBench\ArchBench.PlugIns.Login\obj\Debug\ArchBench.PlugIns.Login.pdb

@@ -74,7 +74,7 @@ namespace ArchBench.Server
             {
                 TcpClient client = new TcpClient( "127.0.0.1", 9000 );
 
-                Byte[] data = Encoding.ASCII.GetBytes( String.Format( "{0}-{1}", mServerName.Text, mPort.Text ) );         
+                Byte[] data = Encoding.ASCII.GetBytes( String.Format( "{0}@{1}:{2}", mServerName.Text, GetLocalIP(), mPort.Text ) );         
 
                 NetworkStream stream = client.GetStream();
                 stream.Write( data, 0, data.Length );
@@ -86,6 +86,23 @@ namespace ArchBench.Server
                mLogger.WriteLine( String.Format( "SocketException: {0}", e ) );
             }
 
+        }
+
+        public static string GetLocalIP()
+        {
+            // Resolves a host name or IP address to an IPHostEntry instance.
+            // IPHostEntry - Provides a container class for Internet host address information. 
+            IPHostEntry IPHostEntry = Dns.GetHostEntry(Dns.GetHostName());
+
+            // IPAddress class contains the address of a computer on an IP network. 
+            foreach (IPAddress IPAddress in IPHostEntry.AddressList)
+            {
+                // InterNetwork indicates that an IP version 4 address is expected 
+                // when a Socket connects to an endpoint
+                if (IPAddress.AddressFamily.ToString() != "InterNetwork") continue;
+                return IPAddress.ToString();
+            }
+            return @"127.0.0.1";
         }
     }
 }
