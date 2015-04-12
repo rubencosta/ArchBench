@@ -2,21 +2,41 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="ArchBench.PlugIns.Broker/Broker.cs">
     <Files>
+      <File FileName="ArchBench.PlugIns.Broker/Broker.cs" Line="19" Column="19" />
+      <File FileName="ArchBench.Server/Program.cs" Line="1" Column="1" />
+      <File FileName="ArchBench.PlugIns.Login/PlugInLogin.cs" Line="18" Column="18" />
       <File FileName="ArchBench.PlugIns.Broker/Service.cs" Line="1" Column="1" />
-      <File FileName="ArchBench.PlugIns.ImageGallery/ImageGallery.cs" Line="1" Column="1" />
+      <File FileName="ArchBench.Server/ArchServerForm.cs" Line="4" Column="4" />
       <File FileName="ArchBench.PlugIns.Broker/Server.cs" Line="1" Column="1" />
-      <File FileName="ArchBench.PlugIns.Broker/Broker.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="PlugIns" expanded="True">
+            <Node name="ArchBench.PlugIns.Broker" expanded="True">
+              <Node name="Broker.cs" selected="True" />
+            </Node>
+            <Node name="ArchBench.PlugIns.ImageGallery" expanded="True" />
+            <Node name="ArchBench.PlugIns.Login" expanded="True" />
+          </Node>
+          <Node name="ArchBench.Server" expanded="True" />
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>aRequest.Headers["Referer"]</Value>
+          <Value>aRequest.Uri</Value>
+          <Value>aRequest.Uri.ToString().Split("/")</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint enabled="false" file="/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/Service.cs" line="43" column="1" />
-      <Breakpoint enabled="false" file="/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/Service.cs" line="49" column="1" />
-      <Breakpoint enabled="false" file="/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/Service.cs" line="70" column="1" />
-      <Breakpoint enabled="false" file="/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/Service.cs" line="32" column="1" />
-      <Breakpoint enabled="false" file="/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/Service.cs" line="59" column="1" />
-      <Breakpoint file="/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/Server.cs" line="37" column="1" />
-      <Breakpoint file="/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/Broker.cs" line="124" column="1" />
+      <Breakpoint enabled="false" file="/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/Service.cs" line="65" column="1" />
+      <Catchpoint enabled="false" exceptionName="System.Exception" includeSubclasses="True" />
+      <Breakpoint enabled="false" file="/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/Broker.cs" line="306" column="1" />
+      <Breakpoint enabled="false" file="/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Broker/Broker.cs" line="145" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

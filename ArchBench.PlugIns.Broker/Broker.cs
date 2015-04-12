@@ -108,20 +108,15 @@ namespace ArchBench.PlugIns.Broker
 		{
 			if (originalSetCookie == null) 
 				return "";
-			String encodedSetCookie = String.Format ("{0}@{1}=__broker__={2}", serviceName, COOKIE_NAME, serverId);
+			String encodedSetCookie = String.Format ("{0}@{1}=__broker__={2}&{3}", serviceName, COOKIE_NAME, serverId,originalSetCookie);
 			String[] splitCookie = originalSetCookie.Split (';');
 			// Set-Cookie contains Expires attr
 			foreach(string cookieOpt in splitCookie){
-				try{
-					if (cookieOpt != "" && cookieOpt.Substring (0, cookieOpt.IndexOf ('=')) == "Expires") {
-						SetCookieExpire (DateTime.Parse (cookieOpt.Substring(cookieOpt.IndexOf ('=') + 1)));
-						encodedSetCookie += String.Format (";Expires={0}", mCookieExpireDate.ToString ("R"));
-					}
-				}catch(System.ArgumentOutOfRangeException e){
-					Host.Logger.WriteLine (e.Message);
+				if (cookieOpt.IndexOf('=') > -1 && cookieOpt.Substring (0, cookieOpt.IndexOf ('=')) == "Expires") {
+					SetCookieExpire (DateTime.Parse (cookieOpt.Substring(cookieOpt.IndexOf ('=') + 1)));
+					encodedSetCookie += String.Format (";Expires={0}", mCookieExpireDate.ToString ("R"));
 				}
 			}
-			encodedSetCookie += String.Format ("&{0}",originalSetCookie);
 			return encodedSetCookie;
 		}
 
@@ -195,8 +190,8 @@ namespace ArchBench.PlugIns.Broker
 			webClient = new WebClient ();
 			result = null;
 		    serviceName = getServiceName(aRequest);
-			cookieServerId = "";
-			cookies = "";
+			cookieServerId = null;
+			cookies = null;
 			index = mRegisteredServices.IndexOf (new Service (serviceName)); 
 			service = index > -1 ? mRegisteredServices [index] : mRegisteredServices [0];
 
@@ -208,38 +203,28 @@ namespace ArchBench.PlugIns.Broker
 		        {
 		            foreach (string subCookie in DecodeCookie(requestCookie.Value))
 		            {
-		                try
-		                {
-		                    if (subCookie.Contains("__broker__"))
-		                    {
-		                        cookieServerId = subCookie.Substring(subCookie.IndexOf('=') + 1);
-		                    }
-		                }
-		                catch (Exception e)
-		                {
-							Host.Logger.WriteLine(e.Message);
-		                    if (subCookie != "" && cookies != "" && !subCookie.Contains("__broker__"))
-		                        cookies += ';' + subCookie;
-		                    else if (subCookie != "" && !subCookie.Contains("__broker__"))
-		                        cookies = subCookie;
-		                }
-		                if (subCookie != "" && cookies != "" && !subCookie.Contains("__broker__"))
-		                    cookies += ';' + subCookie;
-		                else if (subCookie != "" && !subCookie.Contains("__broker__"))
-		                    cookies = subCookie;
-		            }
-		        }
-		    }
-		    if (cookies != "")
+						if (subCookie.Contains ("__broker__")) {
+							if (subCookie.IndexOf ('=') > -1)
+								cookieServerId = subCookie.Substring (subCookie.IndexOf ('=') + 1);
+						} else {
+							if (cookies != null)
+								cookies += ';' + subCookie;
+							else
+								cookies = subCookie;
+						}
+					}
+				}
+			}
+			if (cookies != null)
 		        webClient.Headers.Add("Cookie", cookies);
-		    server = cookieServerId != "" ? service.getServer(int.Parse(cookieServerId)) : service.getServer();
+			server = cookieServerId != null ? service.getServer(int.Parse(cookieServerId)) : service.getServer();
 		    if (server == null)
 		    {
 		        Host.Logger.WriteLine(String.Format("service provider not found!"));
 		        return false;
 		    }
 		    Host.Logger.WriteLine(String.Format("service provider found on: {0}", server.getUrl()));
-		    string url = String.Format("http://{0}{1}", server.getUrl(), ProcessPath(aRequest));
+			string url = String.Format("http://{0}{1}", server.getUrl(), service.Name == DEFAULT_SERVICE ? aRequest.UriPath :ProcessPath(aRequest));
 		    try
 		    {
 		        result = aRequest.Method == Method.Post
@@ -248,8 +233,7 @@ namespace ArchBench.PlugIns.Broker
 		    }
 		    catch (WebException e)
 		    {
-		        Host.Logger.WriteLine("This program is expected to throw WebException on successful run." +
-		                              "\n\nException Message :" + e.Message);
+		        Host.Logger.WriteLine("Exception Message :" + e.Message);
 		        if (e.Status == WebExceptionStatus.ProtocolError)
 		        {
 		            Console.WriteLine("Status Code : {0}", ((HttpWebResponse) e.Response).StatusCode);
@@ -273,7 +257,7 @@ namespace ArchBench.PlugIns.Broker
 				aResponse.AddHeader ("Set-Cookie",
 					EncodeSetCookie (service.Name, server.Id, webClient.ResponseHeaders ["Set-Cookie"]));
 
-				if (parse) {
+				if (parse && service.Name != DEFAULT_SERVICE) {
 					data = data.Replace ("href=\"/", "href=\"/" + service.Name + "/");
 					data = data.Replace ("action=\"/", "action=\"/" + service.Name + "/");
 					data = data.Replace ("src=\"/", "src=\"/" + service.Name + "/");
