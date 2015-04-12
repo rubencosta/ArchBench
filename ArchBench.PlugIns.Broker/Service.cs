@@ -6,73 +6,73 @@ namespace ArchBench.PlugIns.Broker
 {
 	public class Service
 	{
-		public String Name { get; set; }
+		public string Name { get; set; }
 		public EventHandler Expired;
-		IList<Server> mServers = new List<Server>();
-		Timer mHeartbeatTimer;
-		int mNextServer = -1;
-		int mId = -1;
+        public CookieHandler CookieHandler { get; private set; }
+		IList<Server> _servers = new List<Server>();
+		Timer _mHeartbeatTimer;
+		int _mNextServer = -1;
+		int _mId = -1;
 
 		public Service (string aServiceName)
 		{
 			Name = aServiceName;
+            CookieHandler = new CookieHandler(Name);
 		}
 
-		public Service (string aServiceName, string aIPAdress, int aPort)
+		public Service (string aServiceName, string aIpAdress, int aPort)
 		{
 			//TODO checks
 			Name = aServiceName;
-			mId++;
-			mServers.Add (new Server (aIPAdress, aPort, mId));
-			mHeartbeatTimer = new Timer (HeartBeatTimerFunction, null, 5000, 5000);
+            CookieHandler = new CookieHandler(Name);
+			_mId++;
+			_servers.Add (new Server (aIpAdress, aPort, _mId));
+			_mHeartbeatTimer = new Timer (HeartBeatTimerFunction, null, 5000, 5000);
 		}
 			
-		public bool Add (string aServiceName, string aIPAdress, int aPort)
+		public bool Add (string aServiceName, string aIpAdress, int aPort)
 		{
 			if (aServiceName != Name)
 				return false;
-			mId++;
-			mServers.Add (new Server (aIPAdress, aPort, mId));
-			if(mServers.Count == 1) 
-				mHeartbeatTimer = new Timer (HeartBeatTimerFunction, null, 5000, 5000);
+			_mId++;
+			_servers.Add (new Server (aIpAdress, aPort, _mId));
+			if(_servers.Count == 1) 
+				_mHeartbeatTimer = new Timer (HeartBeatTimerFunction, null, 5000, 5000);
 			return true;
 
 		}
 
-		public Server getServer (){
-			if (mServers.Count == 0)
+		public Server GetServer (){
+			if (_servers.Count == 0)
 				return null;
-			mNextServer = ++mNextServer % mServers.Count;
-			return mServers [mNextServer];
+			_mNextServer = ++_mNextServer % _servers.Count;
+			return _servers [_mNextServer];
 		}
-		public Server getServer (int id){
-			int index = mServers.IndexOf (new Server("",0,id));
-			if (index > -1) {
-				return mServers [index];
-			} else {
-				return null;
-			}
+		public Server GetServer (int id)
+		{
+		    var index = _servers.IndexOf (new Server("",0,id));
+		    return index > -1 ? _servers [index] : null;
 		}
 
-		void HeartBeatTimerFunction(object state)
+	    void HeartBeatTimerFunction(object state)
 		{
-			Server[] auxServerList = new Server[mServers.Count];
-			mServers.CopyTo(auxServerList,0);
-			foreach (Server server in auxServerList) 
+			var auxServerList = new Server[_servers.Count];
+			_servers.CopyTo(auxServerList,0);
+			foreach (var server in auxServerList) 
 			{
-				if (!server.isAlive ()) 
+				if (!server.IsAlive ()) 
 				{
-					mServers.Remove (server);
+					_servers.Remove (server);
 				}
 			}
-			if (mServers.Count == 0) 
+			if (_servers.Count == 0) 
 			{
-				setExpired ();
+				SetExpired ();
 			}
 		}
 
-		void setExpired () {
-			mHeartbeatTimer.Dispose ();
+		void SetExpired () {
+			_mHeartbeatTimer.Dispose ();
 			if (Expired != null)
 				Expired (this, null); 
 		}
@@ -90,7 +90,7 @@ namespace ArchBench.PlugIns.Broker
 		}
 
 		public void Dispose () {
-			mHeartbeatTimer.Dispose ();
+			_mHeartbeatTimer.Dispose ();
 		}
 	}
 }

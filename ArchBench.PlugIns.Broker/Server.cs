@@ -5,28 +5,28 @@ namespace ArchBench.PlugIns.Broker
 {
 	public class Server
 	{
-		public String IPAdress { get; set; }
+		public string IpAdress { get; set; }
 		public int Port { get; set; }
 		public int Id { get; private set;}
 
-		public Server (String aIPAdress, int aPort, int id)
+		public Server (string aIpAdress, int aPort, int id)
 		{
 			//TODO verificar por strings vazias e portas fora do range
-			IPAdress = aIPAdress;
+			IpAdress = aIpAdress;
 			Port = aPort;
 			Id = id;
 		}
 
-		public string getUrl() {
-			return IPAdress + ':' + Port;
+		public string GetUrl() {
+			return IpAdress + ':' + Port;
 		}
 
-		public bool isAlive () 
+		public bool IsAlive () 
 		{
 			try
 			{
-				TcpClient client = new TcpClient();
-				client.Connect(IPAdress, Port);
+				var client = new TcpClient();
+				client.Connect(IpAdress, Port);
 				client.Close();
 				return true;
 			}
