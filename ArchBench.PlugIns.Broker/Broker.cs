@@ -19,6 +19,7 @@ namespace ArchBench.PlugIns.Broker
 
 		const String COOKIE_NAME = "gluta_broker";
 		const String DEFAULT_SERVICE = "default";
+		readonly String[] PARSABLE_CONTENT_TYPES = { ContentType.Html, ContentType.Javascript, ContentType.Text, ContentType.Xml};
 
 		public Broker()
 		{
@@ -111,9 +112,13 @@ namespace ArchBench.PlugIns.Broker
 			String[] splitCookie = originalSetCookie.Split (';');
 			// Set-Cookie contains Expires attr
 			foreach(string cookieOpt in splitCookie){
-				if (cookieOpt != "" && cookieOpt.Substring (0, cookieOpt.IndexOf ('=')) == "Expires") {
-					SetCookieExpire (DateTime.Parse (cookieOpt.Substring(cookieOpt.IndexOf ('=') + 1)));
-					encodedSetCookie += String.Format (";Expires={0}", mCookieExpireDate.ToString ("R"));
+				try{
+					if (cookieOpt != "" && cookieOpt.Substring (0, cookieOpt.IndexOf ('=')) == "Expires") {
+						SetCookieExpire (DateTime.Parse (cookieOpt.Substring(cookieOpt.IndexOf ('=') + 1)));
+						encodedSetCookie += String.Format (";Expires={0}", mCookieExpireDate.ToString ("R"));
+					}
+				}catch(System.ArgumentOutOfRangeException e){
+					Host.Logger.WriteLine (e.Message);
 				}
 			}
 			encodedSetCookie += String.Format ("&{0}",originalSetCookie);
@@ -134,15 +139,15 @@ namespace ArchBench.PlugIns.Broker
 		String ProcessPath (IHttpRequest aRequest)
 		{
 		    string[] uriParts;
-		    if (aRequest.Headers["Referer"] != null)
-		    {
-		        string uriPath = aRequest.Headers["Referer"].Remove(0, aRequest.Headers["Origin"].Length +1);
-		        uriParts = uriPath.Split('/');
-		    }
-		    else
-		    {
-		        uriParts = aRequest.UriParts;
-		    }
+			if (aRequest.Headers ["Referer"] != null) {
+				uriParts = aRequest.Uri.ToString ().Split ('/');
+				string[] refererParts = aRequest.Headers["Referer"].Split ('/');
+				if (uriParts [3] != refererParts [3]) {
+					return aRequest.UriPath;
+				}			
+			}
+
+			uriParts = aRequest.UriParts;
 		    if (uriParts.Length == 0)
 				return "/";
 
@@ -194,6 +199,7 @@ namespace ArchBench.PlugIns.Broker
 			cookies = "";
 			index = mRegisteredServices.IndexOf (new Service (serviceName)); 
 			service = index > -1 ? mRegisteredServices [index] : mRegisteredServices [0];
+
 		    //check for cookie
 		    foreach (RequestCookie requestCookie in aRequest.Cookies)
 		    {
@@ -211,7 +217,7 @@ namespace ArchBench.PlugIns.Broker
 		                }
 		                catch (Exception e)
 		                {
-		                    Host.Logger.WriteLine(e.ToString());
+							Host.Logger.WriteLine(e.Message);
 		                    if (subCookie != "" && cookies != "" && !subCookie.Contains("__broker__"))
 		                        cookies += ';' + subCookie;
 		                    else if (subCookie != "" && !subCookie.Contains("__broker__"))
@@ -250,23 +256,39 @@ namespace ArchBench.PlugIns.Broker
 		            Console.WriteLine("Status Description : {0}", ((HttpWebResponse) e.Response).StatusDescription);
 		        }
 		    }
-		    if (result != null && result.Length > 0)
-		    {
-		        // Send data to corresponding service
-		        String data = Encoding.ASCII.GetString(result, 0, result.Length);
-		        Host.Logger.WriteLine(data);
+			if (result != null && result.Length > 0) {
+				// Send data to corresponding service
+				String data = Encoding.UTF8.GetString (result, 0, result.Length);
+				bool parse = false;
+				foreach (string key in webClient.ResponseHeaders.AllKeys) {
+					aResponse.AddHeader (key, webClient.ResponseHeaders [key]);
+					if (key == "Content-Type") 
+					{
+						if (webClient.ResponseHeaders [key].Contains ("html") || webClient.ResponseHeaders [key].Contains ("text")) { //|| webClient.ResponseHeaders [key].Contains ("javascript")
+							parse = true;
+						}
+					}
+				}
 
-		        // Forward cookie
-		        foreach (string key in webClient.ResponseHeaders.AllKeys)
-		        {
-		            aResponse.AddHeader(key, webClient.ResponseHeaders[key]);
-		        }
-		        aResponse.AddHeader("Set-Cookie",
-		            EncodeSetCookie(service.Name, server.Id, webClient.ResponseHeaders["Set-Cookie"]));
+				aResponse.AddHeader ("Set-Cookie",
+					EncodeSetCookie (service.Name, server.Id, webClient.ResponseHeaders ["Set-Cookie"]));
 
-		        aResponse.Body.Write(result, 0, result.Length);
-		        aResponse.Send();
-		    } 
+				if (parse) {
+					data = data.Replace ("href=\"/", "href=\"/" + service.Name + "/");
+					data = data.Replace ("action=\"/", "action=\"/" + service.Name + "/");
+					data = data.Replace ("src=\"/", "src=\"/" + service.Name + "/");
+					data = data.Replace ("url(\"/", "url(\"/" + service.Name + "/");
+					result = Encoding.UTF8.GetBytes (data);
+					aResponse.AddHeader ("Content-Length", result.Length.ToString());
+				}
+
+				aResponse.Body.Write (result, 0, result.Length);
+				aResponse.Body.Flush ();
+				aResponse.Send ();
+			} else {
+				aResponse.Status = HttpStatusCode.NotFound;
+				aResponse.Send ();
+			}
 
 			//			webClient.DownloadDataCompleted += HandleDownloadDataCompleted;
 			//			webClient.DownloadDataAsync (aRequest.Uri);
@@ -277,12 +299,14 @@ namespace ArchBench.PlugIns.Broker
 	    private string getServiceName(IHttpRequest aRequest)
 	    {
 	        string serviceName = "";
-	        if (aRequest.Headers["Referer"] != null)
-	        {
-	            string uriPath = aRequest.Headers["Referer"].Remove(0, aRequest.Headers["Origin"].Length + 1);
-	            return uriPath.Split('/')[0];
-	        }
-
+			if (aRequest.Headers ["Referer"] != null) {
+				//if aRequest.Uri does not contain the start of the referer
+				string[] uriParts = aRequest.Uri.ToString ().Split ('/');
+				string[] refererParts = aRequest.Headers["Referer"].Split ('/');
+				if (uriParts [3] != refererParts [3]) {
+					return refererParts[3];
+				}
+			}
             serviceName = aRequest.UriParts.Length > 0 ? aRequest.UriParts[0] : DEFAULT_SERVICE;
 	        return serviceName;
 	    }
