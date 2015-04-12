@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using HttpServer;
 
@@ -10,7 +9,7 @@ namespace ArchBench.PlugIns.Broker
     public class CookieHandler
     {
         private const string CookieName = "gluta_broker";
-        private DateTime _mCookieExpireDate;
+        private DateTime _cookieExpireDate;
         private readonly string _name;
 
         public struct ParsedCookie
@@ -64,7 +63,7 @@ namespace ArchBench.PlugIns.Broker
                 if (cookieOpt.IndexOf('=') > -1 && cookieOpt.Substring(0, cookieOpt.IndexOf('=')) == "Expires")
                 {
                     SetCookieExpire(DateTime.Parse(cookieOpt.Substring(cookieOpt.IndexOf('=') + 1)));
-                    encodedSetCookie += string.Format(";Expires={0}", _mCookieExpireDate.ToString("R"));
+                    encodedSetCookie += string.Format(";Expires={0}", _cookieExpireDate.ToString("R"));
                 }
             }
             return encodedSetCookie;
@@ -84,9 +83,9 @@ namespace ArchBench.PlugIns.Broker
 
         private void SetCookieExpire(DateTime date)
         {
-            if (date.CompareTo(_mCookieExpireDate) > 0)
+            if (date.CompareTo(_cookieExpireDate) > 0)
             {
-                _mCookieExpireDate = date;
+                _cookieExpireDate = date;
             }
         }
 

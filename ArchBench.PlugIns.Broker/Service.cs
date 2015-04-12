@@ -10,9 +10,9 @@ namespace ArchBench.PlugIns.Broker
 		public EventHandler Expired;
         public CookieHandler CookieHandler { get; private set; }
 		IList<Server> _servers = new List<Server>();
-		Timer _mHeartbeatTimer;
-		int _mNextServer = -1;
-		int _mId = -1;
+		Timer _heartbeatTimer;
+		int _nextServer = -1;
+		int _idCounter = -1;
 
 		public Service (string aServiceName)
 		{
@@ -25,19 +25,19 @@ namespace ArchBench.PlugIns.Broker
 			//TODO checks
 			Name = aServiceName;
             CookieHandler = new CookieHandler(Name);
-			_mId++;
-			_servers.Add (new Server (aIpAdress, aPort, _mId));
-			_mHeartbeatTimer = new Timer (HeartBeatTimerFunction, null, 5000, 5000);
+			_idCounter++;
+			_servers.Add (new Server (aIpAdress, aPort, _idCounter));
+			_heartbeatTimer = new Timer (HeartBeatTimerFunction, null, 5000, 5000);
 		}
 			
 		public bool Add (string aServiceName, string aIpAdress, int aPort)
 		{
 			if (aServiceName != Name)
 				return false;
-			_mId++;
-			_servers.Add (new Server (aIpAdress, aPort, _mId));
+			_idCounter++;
+			_servers.Add (new Server (aIpAdress, aPort, _idCounter));
 			if(_servers.Count == 1) 
-				_mHeartbeatTimer = new Timer (HeartBeatTimerFunction, null, 5000, 5000);
+				_heartbeatTimer = new Timer (HeartBeatTimerFunction, null, 5000, 5000);
 			return true;
 
 		}
@@ -45,9 +45,10 @@ namespace ArchBench.PlugIns.Broker
 		public Server GetServer (){
 			if (_servers.Count == 0)
 				return null;
-			_mNextServer = ++_mNextServer % _servers.Count;
-			return _servers [_mNextServer];
+			_nextServer = ++_nextServer % _servers.Count;
+			return _servers [_nextServer];
 		}
+
 		public Server GetServer (int id)
 		{
 		    var index = _servers.IndexOf (new Server("",0,id));
@@ -72,7 +73,7 @@ namespace ArchBench.PlugIns.Broker
 		}
 
 		void SetExpired () {
-			_mHeartbeatTimer.Dispose ();
+			_heartbeatTimer.Dispose ();
 			if (Expired != null)
 				Expired (this, null); 
 		}
@@ -84,13 +85,13 @@ namespace ArchBench.PlugIns.Broker
 			return Name == ((Service)obj).Name;
 		}
 
-		public override int GetHashCode ()
-		{
-			return base.GetHashCode ();
-		}
+	    public override int GetHashCode()
+	    {
+	        return base.GetHashCode();
+	    }
 
 		public void Dispose () {
-			_mHeartbeatTimer.Dispose ();
+			_heartbeatTimer.Dispose ();
 		}
 	}
 }

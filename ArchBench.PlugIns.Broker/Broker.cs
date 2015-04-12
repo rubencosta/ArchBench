@@ -14,13 +14,13 @@ namespace ArchBench.PlugIns.Broker
     public class Broker : IArchServerModulePlugIn
     {
         private const string DefaultService = "default";
-        private readonly TcpListener _mListener;
+        private readonly TcpListener _listener;
         private readonly IList<Service> _registeredServices = new List<Service>();
-        private Thread _mRegisterThread;
+        private Thread _registerThread;
 
         public Broker()
         {
-            _mListener = new TcpListener(IPAddress.Any, 9000);
+            _listener = new TcpListener(IPAddress.Any, 9000);
             _registeredServices.Add(new Service(DefaultService));
         }
 
@@ -29,7 +29,7 @@ namespace ArchBench.PlugIns.Broker
             try
             {
                 // Start listening for client requests.
-                _mListener.Start();
+                _listener.Start();
 
                 // Buffer for reading data
                 var bytes = new byte[256];
@@ -39,7 +39,7 @@ namespace ArchBench.PlugIns.Broker
                 {
                     // Perform a blocking call to accept requests.
                     // You could also user server.AcceptSocket() here.
-                    var client = _mListener.AcceptTcpClient();
+                    var client = _listener.AcceptTcpClient();
 
                     // Get a stream object for reading and writing
                     var stream = client.GetStream();
@@ -67,7 +67,7 @@ namespace ArchBench.PlugIns.Broker
             }
             finally
             {
-                _mListener.Stop();
+                _listener.Stop();
             }
         }
 
@@ -91,7 +91,7 @@ namespace ArchBench.PlugIns.Broker
         private void OnServiceExpired(object sender, EventArgs e)
         {
             var expiredService = sender as Service;
-            if (expiredService.Name != DefaultService)
+            if (expiredService != null && expiredService.Name != DefaultService)
                 _registeredServices.Remove(expiredService);
         }
 
@@ -107,7 +107,6 @@ namespace ArchBench.PlugIns.Broker
 
         private string GetServiceName(IHttpRequest aRequest)
         {
-            var serviceName = "";
             if (aRequest.Headers["Referer"] != null)
             {
                 //if aRequest.Uri does not contain the start of the referer
@@ -118,8 +117,8 @@ namespace ArchBench.PlugIns.Broker
                     return refererParts[3];
                 }
             }
-            serviceName = aRequest.UriParts.Length > 0 ? aRequest.UriParts[0] : DefaultService;
-            return serviceName;
+   
+            return aRequest.UriParts.Length > 0 ? aRequest.UriParts[0] : DefaultService;
         }
 
         private string ProcessPath(IHttpRequest aRequest)
@@ -272,14 +271,14 @@ namespace ArchBench.PlugIns.Broker
 
         public void Initialize()
         {
-            _mRegisterThread = new Thread(ReceiveThreadFunction) {IsBackground = true};
-            _mRegisterThread.Start();
+            _registerThread = new Thread(ReceiveThreadFunction) {IsBackground = true};
+            _registerThread.Start();
         }
 
         public void Dispose()
         {
-            _mRegisterThread.Abort();
-            _mListener.Stop();
+            _registerThread.Abort();
+            _listener.Stop();
         }
 
         #endregion
