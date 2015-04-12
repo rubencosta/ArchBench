@@ -1,8 +1,0 @@
-/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Dispatcher/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Dispatcher/bin/Debug/HttpServer.dll
-/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Dispatcher/bin/Debug/ArchBench.Core.dll
-/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Dispatcher/bin/Debug/ArchBench.Core.dll.mdb
-/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Dispatcher/bin/Debug/ArchBench.PlugIns.Dispatcher.dll.mdb
-/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Dispatcher/bin/Debug/ArchBench.PlugIns.Dispatcher.dll
-/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Dispatcher/obj/Debug/ArchBench.PlugIns.Dispatcher.dll
-/home/ruben/Documents/AS/ArchBench/ArchBench.PlugIns.Dispatcher/obj/Debug/ArchBench.PlugIns.Dispatcher.dll.mdb

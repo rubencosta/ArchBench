@@ -1,6 +1,0 @@
-/home/ruben/Documents/AS/ArchBench/ArchBench.Core/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
-/home/ruben/Documents/AS/ArchBench/ArchBench.Core/bin/Debug/ArchBench.Core.dll.mdb
-/home/ruben/Documents/AS/ArchBench/ArchBench.Core/bin/Debug/ArchBench.Core.dll
-/home/ruben/Documents/AS/ArchBench/ArchBench.Core/obj/Debug/ArchBench.Core.dll
-/home/ruben/Documents/AS/ArchBench/ArchBench.Core/obj/Debug/ArchBench.Core.dll.mdb
-/home/ruben/Documents/AS/ArchBench/ArchBench.Core/bin/Debug/HttpServer.dll
