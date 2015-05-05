@@ -9,7 +9,6 @@ namespace ArchBench.PlugIns.Broker
     public class CookieHandler
     {
         private const string CookieName = "gluta_broker";
-        private DateTime _cookieExpireDate;
         private readonly string _name;
 
         public struct ParsedCookie
@@ -62,8 +61,7 @@ namespace ArchBench.PlugIns.Broker
             {
                 if (cookieOpt.IndexOf('=') > -1 && cookieOpt.Substring(0, cookieOpt.IndexOf('=')) == "Expires")
                 {
-                    SetCookieExpire(DateTime.Parse(cookieOpt.Substring(cookieOpt.IndexOf('=') + 1)));
-                    encodedSetCookie += string.Format(";Expires={0}", _cookieExpireDate.ToString("R"));
+					encodedSetCookie += string.Format(";Expires={0}", cookieOpt.Substring(cookieOpt.IndexOf('=') + 1));
                 }
             }
             return encodedSetCookie;
@@ -79,14 +77,6 @@ namespace ArchBench.PlugIns.Broker
                     cookies.Add(cookie);
             }
             return cookies;
-        }
-
-        private void SetCookieExpire(DateTime date)
-        {
-            if (date.CompareTo(_cookieExpireDate) > 0)
-            {
-                _cookieExpireDate = date;
-            }
         }
 
     }
